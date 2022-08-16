@@ -2,21 +2,21 @@ export EthHdr, IpFlags, IpHdr,
        UdpHdr, TcpFlags, TcpHdr,
        IcmpHdr, DecPkt, decode_pkt
 
-type EthHdr
+struct EthHdr
     dest_mac::AbstractString
     src_mac::AbstractString
     ptype::UInt16
     EthHdr() = new("","",0)
 end # type EthHdr
 
-type IpFlags
+struct IpFlags
     reserved::Bool
     dont_frag::Bool
     more_frags::Bool
     IpFlags() = new(false,false,false)
 end # type IpFlags
 
-type IpHdr
+struct IpHdr
     version::UInt8
     length::UInt8
     services::UInt8
@@ -32,7 +32,7 @@ type IpHdr
     IpHdr() = new(0,0,0,0,0,IpFlags(),0,0,0,false,"","")
 end # type IpHdr
 
-type TcpFlags
+struct TcpFlags
     reserved::Bool
     nonce::Bool
     cwr::Bool
@@ -47,7 +47,7 @@ type TcpFlags
                      false,false,false,false,false)
 end # type TcpFlags
 
-type TcpHdr
+struct TcpHdr
     src_port::UInt16
     dest_port::UInt16
     seq::UInt32
@@ -61,7 +61,7 @@ type TcpHdr
     TcpHdr() = new(0,0,0,0,0,TcpFlags(),0,0,0, Vector{UInt8}(0))
 end # type TcpHdr
 
-type UdpHdr
+struct UdpHdr
     src_port::UInt16
     dest_port::UInt16
     length::UInt16
@@ -70,7 +70,7 @@ type UdpHdr
     UdpHdr() = new(0,0,0,0,Vector{UInt8}(0))
 end # type UdpHdr
 
-type IcmpHdr
+struct IcmpHdr
     ptype::UInt8
     code::UInt8
     checksum::UInt16
@@ -79,25 +79,30 @@ type IcmpHdr
     IcmpHdr() = new(0,0,0,0,0)
 end # type IcmpHdr
 
-type DecPkt
+struct DecPkt
     datalink::EthHdr
     network::IpHdr
     protocol::Any
     DecPkt() = new(EthHdr(), IpHdr(), nothing)
 end # type DecPkt
 
-@inline function getindex_he{T}(::Type{T}, b::Vector{UInt8}, i)
-    # When 0.4 support is dropped, add @boundscheck
-    checkbounds(b, i + sizeof(T) - 1)
-    return unsafe_load(Ptr{T}(pointer(b, i)))
-end
 
-@inline getindex_be{T}(::Type{T}, b::Vector{UInt8}, i) = hton(getindex_he(T, b, i))
+
+@inline function getindex_he(::Type{T}, b::Vector{UInt8}, i) where {T}
+    # r: getindex_he When 0.4 support is dropped, add @boundscheck
+    @boundscheck checkbounds(b, i + sizeof(T) - 1)
+    return unsafe_load(Ptr{T}(pointer(b, i)))
+    
+end 
+
+@inline getindex_be(::Type{T}, b::Vector{UInt8}, i) where {T} = hton(getindex_he(T, b, i))
+    
 
 #----------
 # decode ethernet header
 #----------
-function decode_eth_hdr(d::Array{UInt8})
+        checkbounds(b, i + sizeof(T) - 1)
+        function decode_eth_hdr(d::Array{UInt8})
     eh = EthHdr()
     eh.dest_mac = string(hex(d[1], 2), ":", hex(d[2], 2), ":", hex(d[3], 2), ":",
                          hex(d[4], 2), ":", hex(d[5], 2), ":", hex(d[6], 2))

@@ -4,7 +4,7 @@ import Compat.read
 export PcapFileHeader, PcapRec, PcapOffline,
        pcap_get_record
 
-type PcapFileHeader
+struct PcapFileHeader
     magic_number::UInt32
     version_major::UInt16
     version_minor::UInt16
@@ -15,7 +15,7 @@ type PcapFileHeader
     PcapFileHeader() = new(0,0,0,0,0,0,0)
 end # type PcapFileHeader
 
-type PcapRec
+struct PcapRec
     ts_sec::UInt32
     ts_usec::UInt32
     incl_len::UInt32
@@ -24,11 +24,11 @@ type PcapRec
     PcapRec() = new(0,0,0,0, Vector{UInt8}(0))
 end # type PcapRec
 
-type PcapOffline
+struct PcapOffline
     filename::AbstractString
     file::IO
     filehdr::PcapFileHeader
-    record::PcapRec
+    record::PcapRec 
     is_big::Bool
     function PcapOffline(fn::AbstractString)
         filename = fn
