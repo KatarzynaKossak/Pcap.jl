@@ -2,21 +2,37 @@ export EthHdr, IpFlags, IpHdr,
        UdpHdr, TcpFlags, TcpHdr,
        IcmpHdr, DecPkt, decode_pkt
 
+<<<<<<< HEAD
 mutable struct EthHdr
+=======
+struct EthHdr
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     dest_mac::AbstractString
     src_mac::AbstractString
     ptype::UInt16
     EthHdr() = new("","",0)
+<<<<<<< HEAD
 end # struct of EthHdr
 
 mutable struct IpFlags
+=======
+end # type EthHdr
+
+struct IpFlags
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     reserved::Bool
     dont_frag::Bool
     more_frags::Bool
     IpFlags() = new(false,false,false)
+<<<<<<< HEAD
 end # struct of  IpFlags
 
 mutable struct IpHdr
+=======
+end # type IpFlags
+
+struct IpHdr
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     version::UInt8
     length::UInt8
     services::UInt8
@@ -30,9 +46,15 @@ mutable struct IpHdr
     src_ip::AbstractString
     dest_ip::AbstractString
     IpHdr() = new(0,0,0,0,0,IpFlags(),0,0,0,false,"","")
+<<<<<<< HEAD
 end # struct of  IpHdr
 
 mutable struct TcpFlags
+=======
+end # type IpHdr
+
+struct TcpFlags
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     reserved::Bool
     nonce::Bool
     cwr::Bool
@@ -45,9 +67,15 @@ mutable struct TcpFlags
     fin::Bool
     TcpFlags() = new(false,false,false,false,false,
                      false,false,false,false,false)
+<<<<<<< HEAD
 end # struct of  TcpFlags
 
 mutable struct TcpHdr
+=======
+end # type TcpFlags
+
+struct TcpHdr
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     src_port::UInt16
     dest_port::UInt16
     seq::UInt32
@@ -59,32 +87,55 @@ mutable struct TcpHdr
     uptr::UInt16
     data::Vector{UInt8}
     TcpHdr() = new(0,0,0,0,0,TcpFlags(),0,0,0, Vector{UInt8}(0))
+<<<<<<< HEAD
 end # struct of  TcpHdr
 
 mutable struct UdpHdr
+=======
+end # type TcpHdr
+
+struct UdpHdr
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     src_port::UInt16
     dest_port::UInt16
     length::UInt16
     checksum::UInt16
     data::Vector{UInt8}
+<<<<<<< HEAD
     UdpHdr() = new(0,0,0,0,Vector{UInt8}())
 end # struct of  UdpHdr
 
 mutable struct IcmpHdr
+=======
+    UdpHdr() = new(0,0,0,0,Vector{UInt8}(0))
+end # type UdpHdr
+
+struct IcmpHdr
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     ptype::UInt8
     code::UInt8
     checksum::UInt16
     identifier::UInt16
     seqno::UInt16
     IcmpHdr() = new(0,0,0,0,0)
+<<<<<<< HEAD
 end # struct of  IcmpHdr
 
 mutable struct DecPkt
+=======
+end # type IcmpHdr
+
+struct DecPkt
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     datalink::EthHdr
     network::IpHdr
     protocol::Any
     DecPkt() = new(EthHdr(), IpHdr(), nothing)
+<<<<<<< HEAD
 end # struct of  DecPkt
+=======
+end # type DecPkt
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
 
 
 
@@ -95,22 +146,37 @@ end # struct of  DecPkt
     
 end 
 
+<<<<<<< HEAD
 @inline function getindex_be(::Type{T}, b::Vector{UInt8}, i) where {T} 
     @boundscheck checkbounds(b, i + sizeof(T) - 1)
     return hton(getindex_he(T, b, i))
 
 end   
 
+=======
+@inline getindex_be(::Type{T}, b::Vector{UInt8}, i) where {T} = hton(getindex_he(T, b, i))
+    
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
 
 #----------
 # decode ethernet header
 #----------
+<<<<<<< HEAD
 hex(n) = string(n, base=16, pad=2)
 
 function decode_eth_hdr(d::Array{UInt8})
     eh = EthHdr()                   
     eh.dest_mac = join(hex.(d[1:6]), ":")  # apply hex to first 6 elements and join result with ":"
     eh.src_mac  = join(hex.(d[7:12]), ":")  # do it for next 6 elements
+=======
+        checkbounds(b, i + sizeof(T) - 1)
+        function decode_eth_hdr(d::Array{UInt8})
+    eh = EthHdr()
+    eh.dest_mac = string(hex(d[1], 2), ":", hex(d[2], 2), ":", hex(d[3], 2), ":",
+                         hex(d[4], 2), ":", hex(d[5], 2), ":", hex(d[6], 2))
+    eh.src_mac  = string(hex(d[7], 2), ":", hex(d[8], 2), ":", hex(d[9], 2), ":",
+                         hex(d[10], 2), ":", hex(d[11], 2), ":", hex(d[12], 2))
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     eh.ptype    = getindex_be(UInt16, d, 13)
     eh
 end # function decode_eth_hdr
@@ -242,3 +308,7 @@ function decode_pkt(pkt::Array{UInt8})
     decoded.protocol = proto
     decoded
 end # function decode_pkt
+<<<<<<< HEAD
+=======
+
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34

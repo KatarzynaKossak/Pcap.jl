@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 julia 1.8
 Compat 4.5.0
+=======
+julia 0.4
+Compat 0.7.15
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34

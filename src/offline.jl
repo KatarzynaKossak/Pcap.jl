@@ -4,7 +4,11 @@ import Compat.read
 export PcapFileHeader, PcapRec, PcapOffline,
        pcap_get_record
 
+<<<<<<< HEAD
 mutable struct PcapFileHeader
+=======
+struct PcapFileHeader
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     magic_number::UInt32
     version_major::UInt16
     version_minor::UInt16
@@ -15,16 +19,27 @@ mutable struct PcapFileHeader
     PcapFileHeader() = new(0,0,0,0,0,0,0)
 end # type PcapFileHeader
 
+<<<<<<< HEAD
 mutable struct PcapRec
+=======
+struct PcapRec
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     ts_sec::UInt32
     ts_usec::UInt32
     incl_len::UInt32
     orig_len::UInt32
     payload::Vector{UInt8}
+<<<<<<< HEAD
     PcapRec() = new(0,0,0,0, Vector{UInt8}())
 end # type PcapRec
 
 mutable struct PcapOffline
+=======
+    PcapRec() = new(0,0,0,0, Vector{UInt8}(0))
+end # type PcapRec
+
+struct PcapOffline
+>>>>>>> 01db45a614483ee6ab86b2f99ede53f94ea07e34
     filename::AbstractString
     file::IO
     filehdr::PcapFileHeader
