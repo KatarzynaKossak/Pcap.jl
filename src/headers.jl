@@ -7,14 +7,14 @@ mutable struct EthHdr
     src_mac::AbstractString
     ptype::UInt16
     EthHdr() = new("","",0)
-end # type EthHdr
+end # struct of EthHdr
 
 mutable struct IpFlags
     reserved::Bool
     dont_frag::Bool
     more_frags::Bool
     IpFlags() = new(false,false,false)
-end # type IpFlags
+end # struct of  IpFlags
 
 mutable struct IpHdr
     version::UInt8
@@ -26,11 +26,11 @@ mutable struct IpHdr
     frag_offset::UInt16
     ttl::UInt8
     protocol::UInt8
-    checksum::UInt8
+    checksum::Bool
     src_ip::AbstractString
     dest_ip::AbstractString
     IpHdr() = new(0,0,0,0,0,IpFlags(),0,0,0,false,"","")
-end # type IpHdr
+end # struct of  IpHdr
 
 mutable struct TcpFlags
     reserved::Bool
@@ -45,7 +45,7 @@ mutable struct TcpFlags
     fin::Bool
     TcpFlags() = new(false,false,false,false,false,
                      false,false,false,false,false)
-end # type TcpFlags
+end # struct of  TcpFlags
 
 mutable struct TcpHdr
     src_port::UInt16
@@ -59,7 +59,7 @@ mutable struct TcpHdr
     uptr::UInt16
     data::Vector{UInt8}
     TcpHdr() = new(0,0,0,0,0,TcpFlags(),0,0,0, Vector{UInt8}(0))
-end # type TcpHdr
+end # struct of  TcpHdr
 
 mutable struct UdpHdr
     src_port::UInt16
@@ -68,7 +68,7 @@ mutable struct UdpHdr
     checksum::UInt16
     data::Vector{UInt8}
     UdpHdr() = new(0,0,0,0,Vector{UInt8}())
-end # type UdpHdr
+end # struct of  UdpHdr
 
 mutable struct IcmpHdr
     ptype::UInt8
@@ -77,14 +77,14 @@ mutable struct IcmpHdr
     identifier::UInt16
     seqno::UInt16
     IcmpHdr() = new(0,0,0,0,0)
-end # type IcmpHdr
+end # struct of  IcmpHdr
 
 mutable struct DecPkt
     datalink::EthHdr
     network::IpHdr
     protocol::Any
     DecPkt() = new(EthHdr(), IpHdr(), nothing)
-end # type DecPkt
+end # struct of  DecPkt
 
 
 
@@ -100,6 +100,7 @@ end
     return hton(getindex_he(T, b, i))
 
 end   
+
 
 #----------
 # decode ethernet header

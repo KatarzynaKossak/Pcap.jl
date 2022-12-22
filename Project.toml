@@ -1,4 +1,8 @@
 name = "Pcap"
-uuid = "31c75813-03d5-46d0-8211-232a5fa094f1"
-authors = ["KatarzynaKossak <katarzynajoannakossak@gmail.com>"]
+uuid = "1dd83f25-a2f1-496c-a5a4-856606191546"
+authors = ["kossak@student.agh.edu.pl <kossak@student.agh.edu.pl>"]
 version = "0.1.0"
+[deps]
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
+[compat]
+Compat = "4.5.0"
